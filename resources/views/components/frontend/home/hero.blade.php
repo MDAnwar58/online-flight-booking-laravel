@@ -92,10 +92,10 @@
                                                         class="form-control py-xl-2 py-4 rounded-end border-start-0 text-muted fs-5 fw-semibold focus-ring z-0 bg-light"
                                                         placeholder="From Where?"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)">
-                                                    <input type="hidden" name="departure_location_id"
+                                                    <input type="hidden" name="departure_location_id[]"
                                                         id="departure_location_id">
                                                     <ul id="formLocation"
-                                                        class="card card-body position-absolute rounded left-0 d-none"
+                                                        class="card card-body position-absolute rounded left-0 d-none z-3"
                                                         style="margin: 4.5rem 0 0 0;">
 
                                                     </ul>
@@ -111,9 +111,9 @@
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)"
                                                         placeholder="To Where?">
                                                     <input type="hidden" id="arrival_location_id"
-                                                        name="arrival_location_id">
+                                                        name="arrival_location_id[]">
                                                     <ul id="whereLocation"
-                                                        class="card card-body position-absolute rounded left-0 d-none"
+                                                        class="card card-body position-absolute rounded left-0 d-none z-3"
                                                         style="margin: 4.5rem 0 0 0;">
 
                                                     </ul>
@@ -131,7 +131,7 @@
                                                         data-bs-toggle="modal" data-bs-target="#departure_date-modal"
                                                         style="cursor: pointer;">
                                                         <input type="hidden" id="departureDateInput"
-                                                            name="departure_date">
+                                                            name="departure_date[]">
                                                         <div
                                                             class="bg-light border border-1 border-secondary rounded px-2 d-flex align-items-center py-2 w-100 trigger">
                                                             <span class="ps-1 pe-3 fs-4">
@@ -253,7 +253,7 @@
                                     <div id="multipleField" class="col-md-12 pt-2 d-none">
                                         <div class="row">
                                             <div class="col-xl-5 col-sm-12 d-sm-flex">
-                                                <div class="input-group ">
+                                                <div class="input-group position-relative">
                                                     <span class="input-group-text ms-1 bg-light ps-3 pe-0"
                                                         id="basic-addon1">
                                                         <i class="ri-map-pin-fill fs-4 text-secondary"></i>
@@ -262,8 +262,14 @@
                                                         class="form-control py-xl-2 py-4 rounded-end border-start-0 text-muted fs-5 fw-semibold focus-ring z-0 bg-light"
                                                         placeholder="From Where?"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)">
+                                                    <div class="card rounded w-100 position-absolute left-0 d-none"
+                                                        style="margin: 4.5rem 0 0 0;">
+                                                        <ul class="">
+                                                            <li class=" list-unstyled py-2">sdfsdf</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
-                                                <div class="input-group mt-sm-0 mt-1">
+                                                <div class="input-group mt-sm-0 mt-1 position-relative">
                                                     <span class="input-group-text ms-1 bg-light ps-4 pe-0"
                                                         id="basic-addon1">
                                                         <i class="ri-map-pin-fill fs-4 text-secondary "></i>
@@ -272,17 +278,38 @@
                                                         class="form-control py-xl-2 py-4 rounded-end focus-ring border-start-0 text-muted fs-5 fw-semibold bg-light"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)"
                                                         placeholder="To Where?">
+                                                    <div class="card rounded w-100 position-absolute left-0 d-none"
+                                                        style="margin: 4.5rem 0 0 0;">
+                                                        <ul class="">
+                                                            <li class=" list-unstyled py-2">sdfsdf</li>
+                                                        </ul>
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="col-xl-7 col-sm-12 ps-xl-0 ps-3 mt-xl-0 mt-3 ">
                                                 <div class="row">
-                                                    <div id="formDate" class="col-md-4 col-sm-6 col-12">
-                                                        <div
+                                                    <div id="formDate" class="col-md-4 col-sm-6 col-12"
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#departure_date_second-modal"
+                                                        style="cursor: pointer;">
+                                                        <div id="departureDateSecondIsEmpty"
                                                             class="bg-light border border-1 border-secondary rounded px-2 d-flex align-items-center py-2 w-100">
                                                             <span class="ps-1 pe-3 fs-4"><i
                                                                     class="ri-calendar-todo-fill"></i></span>
                                                             <div class="">
-                                                                <span class="text-dark fs-6 fw-bold">Oct 20</span><br>
+                                                                <span class="text-muted fs-6 fw-normal">Depart</span><br>
+                                                                <span class="text-muted fs-6 fw-normal"
+                                                                    id="departureDateSecondYear">Date</span>
+                                                            </div>
+                                                        </div>
+                                                        <input type="hidden" id="departureDateSecondInput"
+                                                            name="departure_date[]">
+                                                        <div id="departureDateSecondIsNotEmpty"
+                                                            class="d-none bg-light border border-1 border-secondary rounded px-2 d-flex align-items-center py-2 w-100">
+                                                            <span class="ps-1 pe-3 fs-4"><i
+                                                                    class="ri-calendar-todo-fill"></i></span>
+                                                            <div class="">
+                                                                <span class="text-dark fs-6 fw-bold"><span id="departureDateSecondMonth">Oct</span> <span id="departureDateSecondDay">20</span></span><br>
                                                                 <span class="text-muted">2023</span>
                                                             </div>
                                                         </div>
@@ -293,7 +320,7 @@
                                     </div>
 
                                     <div id="secondSearchFlightBtn" class="col-md-12 pt-3 d-none">
-                                        <button id="searchFlightBtn" type="button"
+                                        <button id="searchFlightBtn" type="submit"
                                             class="btn btn-warning h-100 fs-6 fw-bold text-light w-100">Search
                                             Flights</button>
                                     </div>
@@ -394,7 +421,7 @@
             } else {
                 formLocation.empty();
                 formLocation.removeClass("d-none");
-                let row = `<li class="list-unstyled" style="cursor: pointer;">
+                let row = `<li class="list-unstyled border border-0 px-1 py-2" style="cursor: pointer;">
                                 <span class="">${response.data}</span>
                             </li>`;
                 formLocation.append(row);
@@ -412,7 +439,7 @@
                 whereLocation.removeClass("d-none");
                 if (response.data.length > 0) {
                     response.data.forEach((item, index) => {
-                        let row = `<li class="list-unstyled" style="cursor: pointer;" onclick="selectArrivalLocation(${item.id})">
+                        let row = `<li class="list-unstyled border border-0 px-1 py-2" style="cursor: pointer;" onclick="selectArrivalLocation(${item.id})">
                                 <i class="ri-plane-line"></i> <span>${item.name}</span> (<span>${item.short_name}</span>)
                                 <span>${item.location}</span>
                             </li>`;
@@ -424,7 +451,7 @@
             } else {
                 whereLocation.empty();
                 whereLocation.removeClass("d-none");
-                let row = `<li class="list-unstyled" style="cursor: pointer;">
+                let row = `<li class="list-unstyled border border-0 px-1 py-2" style="cursor: pointer;">
                                 <span class="">${response.data}</span>
                             </li>`;
                 whereLocation.append(row);
@@ -623,5 +650,56 @@
 
     function selectPerson() {
         PersonBox.classList.toggle("d-none");
+    }
+
+
+
+    let departureDateSecondInput = document.getElementById("departureDateSecondInput"),
+        departureDateSecondIsNotEmpty = document.getElementById("departureDateSecondIsNotEmpty"),
+        departureDateSecondIsEmpty = document.getElementById("departureDateSecondIsEmpty"),
+        departureDateSecondMonth = document.getElementById("departureDateSecondMonth"),
+        departureDateSecondDay = document.getElementById("departureDateSecondDay"),
+        departureDateSecondYear = document.getElementById("departureDateSecondYear");
+
+    let monthValue,
+        dayValue,
+        yearValue,
+        dateValue;
+
+
+
+
+    function departureSecondDate(event) {
+        var selectedDate = new Date(event.target.value);
+        var options = {
+            month: 'short'
+        };
+
+        var monthName = selectedDate.toLocaleString(undefined, options);
+        var day = selectedDate.getDate();
+        var year = selectedDate.getFullYear();
+
+        dateValue = event.target.value;
+        monthValue = monthName;
+        dayValue = day;
+        yearValue = year;
+    }
+
+    
+    function departureSecondDateSet() {
+        let departSecondModalClose = document.getElementById("departSecondModalClose");
+        departureDateSecondIsEmpty.classList.add('d-none');
+        departureDateSecondIsNotEmpty.classList.remove('d-none');
+        departureDateSecondMonth.innerText = monthValue;
+        departureDateSecondDay.innerText = dayValue;
+        departureDateSecondYear.innerText = yearValue;
+        departureDateSecondInput.value = dateValue;
+        departSecondModalClose.click()
+    }
+
+    function closeDepartrueSecondDate()
+    {
+        let departSecondModalClose = document.getElementById("departSecondModalClose");
+        departSecondModalClose.click()
     }
 </script>

@@ -13,14 +13,12 @@ let allClearBtn = document.getElementById("allClearBtn");
 let searchFlightBtn = document.getElementById("searchFlightBtn");
 let secondSearchFlightBtn = document.getElementById("secondSearchFlightBtn");
 
-function getFlightType()
-{
+function getFlightType() {
 	round_trip.checked = true;
 }
 getFlightType()
 
-function roundTrip()
-{
+function roundTrip() {
 	if (round_trip.checked === true) {
 		convertBox.classList.add("position-relative");
 		convertBtn.classList.remove("d-none");
@@ -43,8 +41,7 @@ function roundTrip()
 round_trip.addEventListener("click", roundTrip);
 
 
-function oneWay()
-{
+function oneWay() {
 	if (one_way.checked === true) {
 		convertBox.classList.add("position-relative");
 		convertBtn.classList.remove("d-none");
@@ -67,8 +64,7 @@ function oneWay()
 one_way.addEventListener("click", oneWay);
 
 
-function multiCity()
-{
+function multiCity() {
 	if (multi_city.checked === true) {
 		convertBox.classList.remove("position-relative");
 		convertBtn.classList.add("d-none");
@@ -91,12 +87,14 @@ function multiCity()
 multi_city.addEventListener("click", multiCity);
 
 
+
 let multipleFieldShow = $("#multipleField");
 let addFlight = $("#add_flight");
 let id = 0;
 $(addFlight).on("click", function () {
 	id++;
-	let row = `<div class="row mt-2 formId" id="ids${id}">
+	if (id < 4) {
+		let row = `<div class="row mt-2 formId z-n1" id="ids${id}">
 	<div class="col-xl-5 col-sm-12 d-sm-flex">
 	<div class="input-group ">
 	<span class="input-group-text ms-1 bg-light ps-3 pe-0" id="basic-addon1">
@@ -129,15 +127,16 @@ $(addFlight).on("click", function () {
 	</div>
 	</div>
 	</div>`;
-	multipleFieldShow.append(row);
+		multipleFieldShow.append(row);
+
+	}
 })
 
 function formRemove(id) {
-    $("#" + id).remove();
+	$("#" + id).remove();
 }
 
-function allClear()
-{
+function allClear() {
 	let formId = $(".formId");
 	formId.remove();
 }

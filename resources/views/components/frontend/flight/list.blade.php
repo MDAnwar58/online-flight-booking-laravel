@@ -179,79 +179,89 @@
                             @if ($depart_flights->count() > 0)
                                 @if ($return_date != '')
                                     @foreach ($depart_flights as $flight)
-                                        <div class="col-md-12 mb-3">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <div class="card card-body">
-                                                        <div class="row">
-                                                            <div class="col-md-12">
+                                        @php
+                                            // $return_not_same_with_depart_flights = \App\Models\Flight::where('departure_date', $return_date)
+                                            //     ->where('airline_id', '!=', $flight->airline_id)
+                                            //     ->get();
+                                            $return_flights = \App\Models\Flight::where('departure_date', $return_date)
+                                                ->where('departure_location_id', $flight->arrival_location_id)
+                                                ->where('airline_id', '=', $flight->airline_id)
+                                                ->get();
+                                        @endphp
+                                        @if ($return_flights->count() > 0)
+                                            @foreach ($return_flights as $return_flight)
+                                                <form action="{{ route('flight.booking') }}" method="GET" class="col-md-12 mb-3">
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div class="card card-body">
                                                                 <div class="row">
-                                                                    <div class="col-md-3 ps-3">
-                                                                        <img src="{{ url('upload/images/airline', $flight->airline->image) }}"
-                                                                            class="rounded-circle pt-2"
-                                                                            style="width: 100px;" alt="">
-                                                                        <h6 class="text-secondary text-sm fw-normal">
-                                                                            {{ $flight->airline->name }}</h6>
-                                                                    </div>
-                                                                    <div class="col-md-3 pt-3">
-                                                                        <span
-                                                                            class="text-muted fs-6 fw-semibold">Depart</span><br>
-                                                                        <div class="fs-6 fw-semibold pt-2">
-                                                                            {{ $flight->departure_time }}
-                                                                        </div>
-                                                                        <span
-                                                                            class="text-muted"><small>{{ date('D, d F Y', strtotime($flight->departure_date)) }}</small></span><br>
-                                                                        <span
-                                                                            class="text-muted">{{ $flight->departure_location->name }}
-                                                                            ({{ $flight->departure_location->short_name }})
-                                                                        </span>
-                                                                    </div>
-                                                                    <div class="col-md-3 pt-2 text-center">
-                                                                        <div class="fs-6 fw-semibold pt-2 text-muted">
-                                                                            {{ $flight->duration }}
-                                                                        </div>
-                                                                        <span
-                                                                            style="width: 100px; height: 2px; display: inline-block;"
-                                                                            class="bg-primary"></span>
-                                                                        <div class="text-muted fs-6 fw-light mt-2">
-                                                                            {{ $flight->flight_status }}</div>
-                                                                    </div>
-                                                                    <div class="col-md-3 pt-3">
-                                                                        <span
-                                                                            class="text-muted fs-6 fw-semibold">Arrive</span><br>
-                                                                        <div class="fs-6 fw-semibold pt-2">
-                                                                            {{ $flight->arrival_time }}
-                                                                        </div>
-                                                                        <span
-                                                                            class="text-muted"><small>{{ date('D, d F Y', strtotime($flight->arrival_date)) }}</small></span><br>
-                                                                        <span
-                                                                            class="text-muted">{{ $flight->arrival_location->name }}
-                                                                            ({{ $flight->arrival_location->short_name }})
-                                                                        </span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="col-md-12 py-3">
-                                                                <div class="row justify-content-center">
-                                                                    <div class="col-md-6">
-                                                                        <hr>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            @php
-                                                                // $return_not_save_with_depart_flights = \App\Models\Flight::where('departure_date', $return_date)
-                                                                //     ->where('airline_id', 1)
-                                                                //     ->get();
-                                                                $return_flights = \App\Models\Flight::where('departure_date', $return_date)
-                                                                    ->where('airline_id', '=', $flight->airline_id)
-                                                                    ->get();
-                                                            @endphp
-                                                            {{-- @if ($return_flights) --}}
-                                                                @foreach ($return_flights as $return_flight)
                                                                     <div class="col-md-12">
                                                                         <div class="row">
                                                                             <div class="col-md-3 ps-3">
+                                                                                <input type="text" name="flight_id[]" value="{{ $flight->id }}">
+                                                                                <img src="{{ url('upload/images/airline', $flight->airline->image) }}"
+                                                                                    class="rounded-circle pt-2"
+                                                                                    style="width: 100px;"
+                                                                                    alt="">
+                                                                                <h6
+                                                                                    class="text-secondary text-sm fw-normal">
+                                                                                    {{ $flight->airline->name }}
+                                                                                </h6>
+                                                                            </div>
+                                                                            <div class="col-md-3 pt-3">
+                                                                                <span
+                                                                                    class="text-muted fs-6 fw-semibold">Depart</span><br>
+                                                                                <div class="fs-6 fw-semibold pt-2">
+                                                                                    {{ $flight->departure_time }}
+                                                                                </div>
+                                                                                <span
+                                                                                    class="text-muted"><small>{{ date('D, d F Y', strtotime($flight->departure_date)) }}</small></span><br>
+                                                                                <span
+                                                                                    class="text-muted">{{ $flight->departure_location->name }}
+                                                                                    ({{ $flight->departure_location->short_name }})
+                                                                                </span>
+                                                                            </div>
+                                                                            <div class="col-md-3 pt-2 text-center">
+                                                                                <div
+                                                                                    class="fs-6 fw-semibold pt-2 text-muted">
+                                                                                    {{ $flight->duration }}
+                                                                                </div>
+                                                                                <span
+                                                                                    style="width: 100px; height: 2px; display: inline-block;"
+                                                                                    class="bg-primary"></span>
+                                                                                <div
+                                                                                    class="text-muted fs-6 fw-light mt-2">
+                                                                                    {{ $flight->flight_status }}
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3 pt-3">
+                                                                                <span
+                                                                                    class="text-muted fs-6 fw-semibold">Arrive</span><br>
+                                                                                <div class="fs-6 fw-semibold pt-2">
+                                                                                    {{ $flight->arrival_time }}
+                                                                                </div>
+                                                                                <span
+                                                                                    class="text-muted"><small>{{ date('D, d F Y', strtotime($flight->arrival_date)) }}</small></span><br>
+                                                                                <span
+                                                                                    class="text-muted">{{ $flight->arrival_location->name }}
+                                                                                    ({{ $flight->arrival_location->short_name }})
+                                                                                </span>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12 py-3">
+                                                                        <div class="row justify-content-center">
+                                                                            <div class="col-md-6">
+                                                                                <hr>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="row">
+                                                                            <div class="col-md-3 ps-3">
+                                                                                
+                                                                                <input type="text" name="flight_id[]" value="{{ $return_flight->id }}">
                                                                                 <img src="{{ url('upload/images/airline', $return_flight->airline->image) }}"
                                                                                     class="rounded-circle pt-2"
                                                                                     style="width: 100px;"
@@ -311,92 +321,31 @@
                                                                                     </h5>
                                                                                 </div>
 
-                                                                                <button type="button"
+                                                                                <button type="submit"
                                                                                     class="btn btn-primary text-capitalize mt-3">book
                                                                                     now</button>
                                                                             </div>
                                                                         </div>
                                                                     </div>
-                                                                @endforeach
-                                                            {{-- @else
-                                                                @foreach ($return_not_save_with_depart_flights as $return_not_save_with_depart_flight)
-                                                                    <div class="col-md-12">
-                                                                        <div class="row">
-                                                                            <div class="col-md-3 ps-3">
-                                                                                <img src="{{ url('upload/images/airline', $return_not_save_with_depart_flight->airline->image) }}"
-                                                                                    class="rounded-circle pt-2"
-                                                                                    style="width: 100px;"
-                                                                                    alt="">
-                                                                                <h6
-                                                                                    class="text-secondary text-sm fw-normal">
-                                                                                    {{ $return_not_save_with_depart_flight->airline->name }}
-                                                                                </h6>
-                                                                            </div>
-                                                                            <div class="col-md-3 pt-3">
-                                                                                <span
-                                                                                    class="text-muted fs-6 fw-semibold">Depart</span><br>
-                                                                                <div class="fs-6 fw-semibold pt-2">
-                                                                                    {{ $return_not_save_with_depart_flight->departure_time }}
-                                                                                </div>
-                                                                                <span
-                                                                                    class="text-muted"><small>{{ date('D, d F Y', strtotime($return_not_save_with_depart_flight->departure_date)) }}</small></span><br>
-                                                                                <span
-                                                                                    class="text-muted">{{ $return_not_save_with_depart_flight->departure_location->name }}
-                                                                                    ({{ $return_not_save_with_depart_flight->departure_location->short_name }})
-                                                                                </span>
-                                                                            </div>
-                                                                            <div class="col-md-3 pt-2 text-center">
-                                                                                <div
-                                                                                    class="fs-6 fw-semibold pt-2 text-muted">
-                                                                                    {{ $return_not_save_with_depart_flight->duration }}
-                                                                                </div>
-                                                                                <span
-                                                                                    style="width: 100px; height: 2px; display: inline-block;"
-                                                                                    class="bg-primary"></span>
-                                                                                <div
-                                                                                    class="text-muted fs-6 fw-light mt-2">
-                                                                                    {{ $return_not_save_with_depart_flight->flight_status }}
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="col-md-3 pt-3">
-                                                                                <span
-                                                                                    class="text-muted fs-6 fw-semibold">Arrive</span><br>
-                                                                                <div class="fs-6 fw-semibold pt-2">
-                                                                                    {{ $return_not_save_with_depart_flight->arrival_time }}
-                                                                                </div>
-                                                                                <span
-                                                                                    class="text-muted"><small>{{ date('D, d F Y', strtotime($return_not_save_with_depart_flight->arrival_date)) }}</small></span><br>
-                                                                                <span
-                                                                                    class="text-muted">{{ $return_not_save_with_depart_flight->arrival_location->name }}
-                                                                                    ({{ $return_not_save_with_depart_flight->arrival_location->short_name }})
-                                                                                </span>
-                                                                            </div>
-                                                                            <div
-                                                                                class="col-md-12 pe-5 d-flex justify-content-between py-2">
-                                                                                <div>
-                                                                                    <span
-                                                                                        class="text-muted"><small>Price</small></span>
-                                                                                    <h5 class="fs-6 fw-semibold">
-                                                                                        {{ $return_not_save_with_depart_flight->price + $flight->price }}
-                                                                                        tk
-                                                                                    </h5>
-                                                                                </div>
-
-                                                                                <button type="button"
-                                                                                    class="btn btn-primary text-capitalize mt-3">book
-                                                                                    now</button>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                @endforeach --}}
-                                                            {{-- @endif --}}
-                                                            {{-- @if (!$return_flights)
-                                                            @endif --}}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            @endforeach
+                                        @else
+                                        @if (!$depart_flights->count() > 0)
+                                            <div class="col-md-12 mb-3">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="card card-body text-center">
+                                                            Flight Not Found
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                            @endif
+                                        @endif
                                     @endforeach
                                 @else
                                     @foreach ($depart_flights as $flight)

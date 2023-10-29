@@ -8,6 +8,7 @@ use App\Http\Controllers\Backend\AirportController;
 use App\Http\Controllers\Backend\DashboardController;
 use App\Http\Controllers\Backend\FlightController;
 use App\Http\Controllers\Backend\FlightTypeController;
+use App\Http\Controllers\Frontend\FlightBookingController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MyBookingController;
 use App\Http\Controllers\Frontend\ProfileController;
@@ -38,6 +39,7 @@ Route::middleware('auth')->group(function(){
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
     Route::get('/my-booking', [MyBookingController::class, 'myBooking'])->name('my.booking');
     Route::get('/change-password', [ChangePasswordController::class, 'changePassword'])->name('change.password');
+    Route::get('/flight-booking', [FlightBookingController::class, 'flightBooking'])->name('flight.booking');
 });
 
 // auth routes

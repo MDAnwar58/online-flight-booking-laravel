@@ -1,3 +1,29 @@
+<style>
+    
+.agent_support_bg
+{
+	visibility: visible;
+	padding: 5rem 0 3rem 0;
+}
+@media only screen and (max-width: 1200px) {
+	.agent_support_bg
+	{
+		padding: 8rem 0 3rem 0;
+	}
+}
+@media only screen and (max-width: 768px) {
+	.agent_support_bg
+	{
+		padding: 15rem 0 3rem 0;
+	}
+}
+@media only screen and (max-width: 575px) {
+	.agent_support_bg
+	{
+		padding: 25rem 0 3rem 0;
+	}
+}
+</style>
 <div class="agent_support_bg">
     <div class="container">
         <div class="row">
