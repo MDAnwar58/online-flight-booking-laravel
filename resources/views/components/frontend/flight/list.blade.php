@@ -176,13 +176,10 @@
                     @include('components.frontend.flight-sidebar')
                     <div class="flights col-md-9">
                         <div class="row">
-                            @if ($depart_flights->count() > 0)
+                            @if ($depart_flights != "false")
                                 @if ($return_date != '')
                                     @foreach ($depart_flights as $flight)
                                         @php
-                                            // $return_not_same_with_depart_flights = \App\Models\Flight::where('departure_date', $return_date)
-                                            //     ->where('airline_id', '!=', $flight->airline_id)
-                                            //     ->get();
                                             $return_flights = \App\Models\Flight::where('departure_date', $return_date)
                                                 ->where('departure_location_id', $flight->arrival_location_id)
                                                 ->where('airline_id', '=', $flight->airline_id)
@@ -198,7 +195,8 @@
                                                                     <div class="col-md-12">
                                                                         <div class="row">
                                                                             <div class="col-md-3 ps-3">
-                                                                                <input type="text" name="flight_id[]" value="{{ $flight->id }}">
+                                                                                <input type="hidden" name="flight_id[]" value="{{ $flight->id }}">
+                                                                                <input type="hidden" name="person" value="{{ $person }}">
                                                                                 <img src="{{ url('upload/images/airline', $flight->airline->image) }}"
                                                                                     class="rounded-circle pt-2"
                                                                                     style="width: 100px;"
@@ -261,7 +259,7 @@
                                                                         <div class="row">
                                                                             <div class="col-md-3 ps-3">
                                                                                 
-                                                                                <input type="text" name="flight_id[]" value="{{ $return_flight->id }}">
+                                                                                <input type="hidden" name="flight_id[]" value="{{ $return_flight->id }}">
                                                                                 <img src="{{ url('upload/images/airline', $return_flight->airline->image) }}"
                                                                                     class="rounded-circle pt-2"
                                                                                     style="width: 100px;"
@@ -334,7 +332,7 @@
                                                 </form>
                                             @endforeach
                                         @else
-                                        @if (!$depart_flights->count() > 0)
+                                            @if (!$depart_flights->count() > 0)
                                             <div class="col-md-12 mb-3">
                                                 <div class="row">
                                                     <div class="col-md-12">
@@ -349,7 +347,7 @@
                                     @endforeach
                                 @else
                                     @foreach ($depart_flights as $flight)
-                                        <div class="col-md-12 mb-3">
+                                        <form action="{{ route('flight.booking') }}" method="GET" class="col-md-12 mb-3">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="card card-body">
@@ -357,6 +355,8 @@
                                                             <div class="col-md-12">
                                                                 <div class="row">
                                                                     <div class="col-md-3 ps-3">
+                                                                        <input type="hidden" name="flight_id" value="{{ $flight->id }}">
+                                                                        <input type="hidden" name="person" value="{{ $person }}">
                                                                         <img src="{{ url('upload/images/airline', $flight->airline->image) }}"
                                                                             class="rounded-circle pt-2"
                                                                             style="width: 100px; height: 100px;"
@@ -408,7 +408,7 @@
                                                                             ({{ $flight->arrival_location->short_name }})</span>
                                                                     </div>
                                                                     <div class="col-md-12 text-end pb-3 pe-5">
-                                                                        <button type="button"
+                                                                        <button type="submit"
                                                                             class="btn btn-primary text-capitalize mt-4">book
                                                                             now</button>
                                                                     </div>
@@ -418,7 +418,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </form>
                                     @endforeach
                                 @endif
                             @else

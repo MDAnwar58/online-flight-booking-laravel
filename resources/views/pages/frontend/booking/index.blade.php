@@ -1,9 +1,10 @@
 @extends('layouts.frontend.app')
 
 @section('content')
-<h1>booking continue
-    {{-- @foreach ($selectFlight->flight_id as $selectFlight)
-        {{ $selectFlight }}
-    @endforeach --}}
-</h1>
+    @include('components.frontend.flight_booking.flight-person-info')
+    <!-- Modal view baggage -->
+    @include('components.frontend.flight_booking.departure-flight')
+    @include('components.frontend.flight_booking.return-flight')
+    @include('components.frontend.flight_booking.one-way-departure-flight')
+
 @endsection

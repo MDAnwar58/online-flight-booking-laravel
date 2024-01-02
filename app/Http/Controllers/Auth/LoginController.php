@@ -15,7 +15,7 @@ class LoginController extends Controller
     function loginRequest(Request $request)
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.dashboard')->cookie('token', 'saif', time()+60 * 60 * 24);
         }else{
             return back();
         }

@@ -5,6 +5,9 @@
     @include('components.frontend.home.hero')
     @include('components.frontend.home.departure_date-modal')
     @include('components.frontend.home.departure_date_second-modal')
+    @include('components.frontend.home.departure_date_1-modal')
+    @include('components.frontend.home.departure_date_2-modal')
+    @include('components.frontend.home.departure_date_3-modal')
     @include('components.frontend.home.arrival_date-modal')
     <!--======================== hero area end ========================-->
 

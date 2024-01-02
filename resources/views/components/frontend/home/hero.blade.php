@@ -88,7 +88,8 @@
                                                         id="basic-addon1">
                                                         <i class="ri-map-pin-fill fs-4 text-secondary"></i>
                                                     </span>
-                                                    <input type="text" id="departureInputField"
+                                                    <input type="text" name="departure_location[]"
+                                                        id="departureInputField"
                                                         class="form-control py-xl-2 py-4 rounded-end border-start-0 text-muted fs-5 fw-semibold focus-ring z-0 bg-light"
                                                         placeholder="From Where?"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)">
@@ -106,12 +107,13 @@
                                                         id="basic-addon1">
                                                         <i class="ri-map-pin-fill fs-4 text-secondary "></i>
                                                     </span>
-                                                    <input type="search" id="arrialInputField"
+                                                    <input type="search" name="arrival_location[]"
+                                                        id="arrialInputField"
                                                         class="form-control py-xl-2 py-4 rounded-end focus-ring border-start-0 text-muted fs-5 fw-semibold bg-light"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)"
                                                         placeholder="To Where?">
-                                                    <input type="hidden" id="arrival_location_id"
-                                                        name="arrival_location_id[]">
+                                                    <input type="hidden" name="arrival_location_id"
+                                                        id="arrival_location_id" name="arrival_location_id[]">
                                                     <ul id="whereLocation"
                                                         class="card card-body position-absolute rounded left-0 d-none z-3"
                                                         style="margin: 4.5rem 0 0 0;">
@@ -258,32 +260,35 @@
                                                         id="basic-addon1">
                                                         <i class="ri-map-pin-fill fs-4 text-secondary"></i>
                                                     </span>
-                                                    <input type="text"
+                                                    <input type="text" id="departureSecondInputField"
+                                                        name="departure_location[]"
                                                         class="form-control py-xl-2 py-4 rounded-end border-start-0 text-muted fs-5 fw-semibold focus-ring z-0 bg-light"
                                                         placeholder="From Where?"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)">
-                                                    <div class="card rounded w-100 position-absolute left-0 d-none"
+                                                    {{-- <input type="hidden"  name="_id[]"
+                                                    id="second_departure_location_id"> --}}
+                                                    <ul id="secondFromLocation"
+                                                        class="card card-body position-absolute rounded left-0 d-none z-3"
                                                         style="margin: 4.5rem 0 0 0;">
-                                                        <ul class="">
-                                                            <li class=" list-unstyled py-2">sdfsdf</li>
-                                                        </ul>
-                                                    </div>
+
+                                                    </ul>
                                                 </div>
                                                 <div class="input-group mt-sm-0 mt-1 position-relative">
                                                     <span class="input-group-text ms-1 bg-light ps-4 pe-0"
                                                         id="basic-addon1">
                                                         <i class="ri-map-pin-fill fs-4 text-secondary "></i>
                                                     </span>
-                                                    <input type="text"
+                                                    <input type="text" id="arrivalSecondInputField"
+                                                        name="arrival_location[]"
                                                         class="form-control py-xl-2 py-4 rounded-end focus-ring border-start-0 text-muted fs-5 fw-semibold bg-light"
                                                         style="--bs-focus-ring-color: rgba(var(--bs-seconda-rgb), 0)"
                                                         placeholder="To Where?">
-                                                    <div class="card rounded w-100 position-absolute left-0 d-none"
+                                                    {{-- <input type="text" id="second_arrival_location_id" name="arrival_location_id[]"> --}}
+                                                    <ul id="secondWhereLocation"
+                                                        class="card card-body position-absolute rounded left-0 d-none z-3"
                                                         style="margin: 4.5rem 0 0 0;">
-                                                        <ul class="">
-                                                            <li class=" list-unstyled py-2">sdfsdf</li>
-                                                        </ul>
-                                                    </div>
+
+                                                    </ul>
                                                 </div>
                                             </div>
                                             <div class="col-xl-7 col-sm-12 ps-xl-0 ps-3 mt-xl-0 mt-3 ">
@@ -297,7 +302,8 @@
                                                             <span class="ps-1 pe-3 fs-4"><i
                                                                     class="ri-calendar-todo-fill"></i></span>
                                                             <div class="">
-                                                                <span class="text-muted fs-6 fw-normal">Depart</span><br>
+                                                                <span
+                                                                    class="text-muted fs-6 fw-normal">Depart</span><br>
                                                                 <span class="text-muted fs-6 fw-normal"
                                                                     id="departureDateSecondYear">Date</span>
                                                             </div>
@@ -309,7 +315,9 @@
                                                             <span class="ps-1 pe-3 fs-4"><i
                                                                     class="ri-calendar-todo-fill"></i></span>
                                                             <div class="">
-                                                                <span class="text-dark fs-6 fw-bold"><span id="departureDateSecondMonth">Oct</span> <span id="departureDateSecondDay">20</span></span><br>
+                                                                <span class="text-dark fs-6 fw-bold"><span
+                                                                        id="departureDateSecondMonth">Oct</span> <span
+                                                                        id="departureDateSecondDay">20</span></span><br>
                                                                 <span class="text-muted">2023</span>
                                                             </div>
                                                         </div>
@@ -369,7 +377,9 @@
 
 <script>
     let formLocation = $("#formLocation"),
-        whereLocation = $("#whereLocation");
+        whereLocation = $("#whereLocation"),
+        secondFromLocation = $("#secondFromLocation"),
+        secondWhereLocation = $("#secondWhereLocation");
 
 
     var departureDateValue,
@@ -399,6 +409,7 @@
         arrivalDateEmpty = document.getElementById("arrivalDateEmpty");
 
     $(document).ready(function() {
+        // departureInputField or arrialInputField start
         $("#departureInputField").on("keyup", async function() {
             let departureInputFieldValue = $(this).val();
             let response = await axios.post('/get-location', {
@@ -427,8 +438,6 @@
                 formLocation.append(row);
             }
         });
-
-
         $("#arrialInputField").on("keyup", async function() {
             let arrialInputFieldValue = $(this).val();
             let response = await axios.post("/get-location", {
@@ -457,8 +466,69 @@
                 whereLocation.append(row);
             }
         });
+        // departureInputField or arrialInputField end
+
+        // departureSecondInputField or arrialSecondInputField start
+        $("#departureSecondInputField").on("keyup", async function() {
+            let departureSecondInputFieldValue = $(this).val();
+            let response = await axios.post('/get-location', {
+                departureLocation: departureSecondInputFieldValue
+            });
+            if (response.data !== "not found") {
+                secondFromLocation.empty();
+                secondFromLocation.removeClass("d-none");
+                if (response.data.length > 0) {
+                    response.data.forEach((item, index) => {
+                        let row = `<li class="list-unstyled border border-0 px-1 py-2" onclick="selectSecondDepartureLocation(${item.id})" style="cursor: pointer;">
+                                <i class="ri-plane-line"></i> <span>${item.name}</span> (<span>${item.short_name}</span>)
+                                <span>${item.location}</span>
+                            </li>`;
+                        secondFromLocation.append(row);
+                    });
+                } else {
+                    secondFromLocation.addClass("d-none");
+                }
+            } else {
+                secondFromLocation.empty();
+                secondFromLocation.removeClass("d-none");
+                let row = `<li class="list-unstyled border border-0 px-1 py-2" style="cursor: pointer;">
+                                <span class="">${response.data}</span>
+                            </li>`;
+                secondFromLocation.append(row);
+            }
+        });
+        $("#arrivalSecondInputField").on("keyup", async function() {
+            let arrivalSecondInputFieldValue = $(this).val();
+            let response = await axios.post("/get-location", {
+                arrivelLoaction: arrivalSecondInputFieldValue
+            });
+            if (response.data !== "not found") {
+                secondWhereLocation.empty();
+                secondWhereLocation.removeClass("d-none");
+                if (response.data.length > 0) {
+                    response.data.forEach((item, index) => {
+                        let row = `<li class="list-unstyled border border-0 px-1 py-2" style="cursor: pointer;" onclick="selectSecondArrivalLocation(${item.id})">
+                                <i class="ri-plane-line"></i> <span>${item.name}</span> (<span>${item.short_name}</span>)
+                                <span>${item.location}</span>
+                            </li>`;
+                        secondWhereLocation.append(row);
+                    });
+                } else {
+                    secondWhereLocation.addClass("d-none");
+                }
+            } else {
+                secondWhereLocation.empty();
+                secondWhereLocation.removeClass("d-none");
+                let row = `<li class="list-unstyled border border-0 px-1 py-2" style="cursor: pointer;">
+                                <span class="">${response.data}</span>
+                            </li>`;
+                secondWhereLocation.append(row);
+            }
+        });
+        // departureSecondInputField or arrialSecondInputField end
     });
 
+    // departure_location_id or arrival_location_id start
     let departure_location_id = document.getElementById("departure_location_id");
     let arrival_location_id = document.getElementById("arrival_location_id");
     let departureId,
@@ -482,6 +552,7 @@
         arrivalName = response.data.name;
         whereLocation.addClass("d-none");
     }
+
     let change = false;
     async function changeLocation() {
         if (change === false) {
@@ -497,9 +568,32 @@
             arrialInputField.value = arrivalName;
             change = false;
         }
-        // let response = await axios.get("/get-location-by/" + departureId);
-        // console.log(response);
     }
+    // departure_location_id or arrival_location_id end
+    
+    // departure_second_location_id or arrival_second_location_id start
+    let departureSecondInputField = document.getElementById("departureSecondInputField"),
+    arrivalSecondInputField = document.getElementById("arrivalSecondInputField");
+    let secondDepartureId,
+        secondArrivalId,
+        secondDepartureName,
+        secondArrivalName;
+
+    async function selectSecondDepartureLocation(id) {
+        let response = await axios.get("/get-location-by/" + id);
+        secondDepartureId = response.data.id;
+        departureSecondInputField.value = response.data.name;
+        secondDepartureName = response.data.name;
+        secondFromLocation.addClass("d-none");
+    }
+    async function selectSecondArrivalLocation(id) {
+        let response = await axios.get("/get-location-by/" + id);
+        secondArrivalId = response.data.id
+        arrivalSecondInputField.value = response.data.name;
+        secondArrivalName = response.data.name;
+        secondWhereLocation.addClass("d-none");
+    }
+    // departure_second_location_id or arrival_second_location_id end
 
 
 
@@ -685,7 +779,7 @@
         yearValue = year;
     }
 
-    
+
     function departureSecondDateSet() {
         let departSecondModalClose = document.getElementById("departSecondModalClose");
         departureDateSecondIsEmpty.classList.add('d-none');
@@ -697,8 +791,7 @@
         departSecondModalClose.click()
     }
 
-    function closeDepartrueSecondDate()
-    {
+    function closeDepartrueSecondDate() {
         let departSecondModalClose = document.getElementById("departSecondModalClose");
         departSecondModalClose.click()
     }

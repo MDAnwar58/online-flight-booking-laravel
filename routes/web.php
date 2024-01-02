@@ -11,6 +11,7 @@ use App\Http\Controllers\Backend\FlightTypeController;
 use App\Http\Controllers\Frontend\FlightBookingController;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\MyBookingController;
+use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,10 +38,19 @@ Route::get('/flight', [App\Http\Controllers\Frontend\FlightController::class, 'i
 Route::middleware('auth')->group(function(){
     // * profile routes
     Route::get('/profile', [ProfileController::class, 'profile'])->name('profile');
+    Route::post('/profile-update', [ProfileController::class, 'profileUpdate'])->name('profile.update');
+    Route::post('/password-update', [ProfileController::class, 'passwordUpdate'])->name('password.update');
     Route::get('/my-booking', [MyBookingController::class, 'myBooking'])->name('my.booking');
     Route::get('/change-password', [ChangePasswordController::class, 'changePassword'])->name('change.password');
+
+    // flight related routes
     Route::get('/flight-booking', [FlightBookingController::class, 'flightBooking'])->name('flight.booking');
+    Route::post('/flight-booking-continue', [FlightBookingController::class, 'flightBookingContinue'])->name('flight.booking.continue');
 });
+
+Route::post('/success', [PaymentController::class, 'success'])->name('payment.success');
+Route::post('/fail', [PaymentController::class, 'fail'])->name('payment.fail');
+Route::post('/cancel', [PaymentController::class, 'cancel'])->name('payment.cancel');
 
 // auth routes
 Route::get('/login', [LoginController::class, 'loginPage'])->name('login');
